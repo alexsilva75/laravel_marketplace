@@ -12,7 +12,9 @@
 
 <body>
     <div class="container-fluid">
+
         @include('admin.layouts._partials.navigation')
+        @include('flash::message')
         @yield('content')
     </div>
 </body>

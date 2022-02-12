@@ -13,11 +13,11 @@
 
 
                     <li class="nav-item">
-                        <a class="nav-link @if (request()->is('admin/stores')) active @endif" aria-current="page"
+                        <a class="nav-link @if (request()->is('admin/stores*')) active @endif" aria-current="page"
                             href="{{ route('admin.stores.index') }}">Lojas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link @if (request()->is('admin/products')) active @endif"
+                        <a class="nav-link @if (request()->is('admin/products*')) active @endif"
                             href="{{ route('admin.products.index') }}">Produtos</a>
                     </li>
                     {{-- <li class="nav-item dropdown">
@@ -43,7 +43,16 @@
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form> --}}
                 <div class="my-2 my-lg-0">
+
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+
+                                <span class="text-light">
+                                    {{ auth()->user()->name }}
+                                </span>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf

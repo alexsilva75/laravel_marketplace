@@ -26,7 +26,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
 
-        Route::resource('stores', \App\Http\Controllers\Admin\StoreController::class); //->middleware(['auth']);
+        Route::resource('stores', \App\Http\Controllers\Admin\StoreController::class); //->middleware('user.has.store')->only(['create', 'store']); //->middleware(['auth']);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
     });
 });

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 
 class ProductController extends Controller
@@ -49,13 +49,13 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         //
 
         $data = $request->all();
 
-        $store = \App\Models\Store::find($data['store']);
+        $store = auth()->user()->store; //\App\Models\Store::find($data['store']);
         $store->products()->create($data);
 
         flash('Produto cadastrado com sucesso!')->success();
@@ -96,7 +96,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductRequest $request, $id)
     {
         //
 

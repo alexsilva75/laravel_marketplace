@@ -8,22 +8,38 @@
         {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
         <div class="form-group">
             <label class="form-label" for="name">Nome do Produto</label>
-            <input class="form-control" type="text" name="name" id="name">
+            <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name"
+                value="{{ old('name') }}">
+            @error('name')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label" for="description">Descrição</label>
-            <input class="form-control" type="text" name="description" id="description">
+            <input class="form-control @error('description') is-invalid @enderror" type="text" name="description"
+                id="description" value="{{ old('description') }}">
+            @error('description')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label class="body" for="description">Conteúdo</label>
-            <textarea class="form-control" cols="30" rows="10" name="body" id="body"></textarea>
+            <textarea class="form-control @error('body') is-invalid @enderror" cols="30" rows="10" name="body"
+                id="body">{{ old('body') }}</textarea>
+            @error('body')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
             <label class="form-label" for="price">Preço</label>
-            <input class="form-control" type="text" name="price" id="price">
+            <input class="form-control @error('price') is-invalid @enderror" type="text" name="price" id="price"
+                value="{{ old('price') }}">
+            @error('price')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
         </div>
 
         <div class="form-group">
@@ -31,14 +47,7 @@
             <input class="form-control" type="text" name="slug" id="slug">
         </div>
 
-        <div class="form-group">
-            <label class="form-label" for="store">Loja</label>
-            <select class="form-select" name="store" id="store">
-                @foreach ($stores as $store)
-                    <option value="{{ $store->id }}">{{ $store->name }}</option>
-                @endforeach
-            </select>
-        </div>
+
         <div class="py-2">
             <button class="btn btn-primary btn-lg">Salvar Produto</button>
         </div>
