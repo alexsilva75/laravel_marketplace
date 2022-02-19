@@ -40,5 +40,5 @@
             @endforeach
         </tbody>
     </table>
-    {{ $products->links() }}
+    {{ empty($products) ? 'Não há produtos cadastrados.' : $products->links() }}
 @endsection

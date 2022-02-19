@@ -32,6 +32,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        /// Author: Alexsandro Silva, in Feb, 19, 2022
+        if (session()->has('cart')) {
+            return redirect()->route('checkout.index');
+        }
+        ///
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

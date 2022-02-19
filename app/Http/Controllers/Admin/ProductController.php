@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Traits\UploadTrait;
 
 class ProductController extends Controller
 {
+    use UploadTrait;
+
     private $product;
 
     public function __construct(Product $product)
@@ -25,8 +29,13 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = $this->product->paginate(10);
+        $userStore = auth()->user()->store;
+        if ($userStore) {
 
+            $products = $userStore->products()->paginate(10);
+        } else {
+            $products = [];
+        }
         return view('admin.products.index', compact('products'));
     }
 
@@ -38,9 +47,9 @@ class ProductController extends Controller
     public function create()
     {
         //
-        $stores = \App\Models\Store::all(['id', 'name']);
+        $categories = \App\Models\Category::all(['id', 'name']);
 
-        return view('admin.products.create', compact('stores'));
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -53,10 +62,23 @@ class ProductController extends Controller
     {
         //
 
+
+
         $data = $request->all();
 
         $store = auth()->user()->store; //\App\Models\Store::find($data['store']);
-        $store->products()->create($data);
+        $product = $store->products()->create($data);
+
+
+        $categories = $request->get('categories', null);
+
+        $product->categories()->sync($categories); //->sync($data['categories']);
+
+        if ($request->hasFile('photos')) {
+            $images = $this->imageUpload($request, 'photos', 'products', 'image');
+
+            $product->photos()->createMany($images);
+        }
 
         flash('Produto cadastrado com sucesso!')->success();
         return redirect()->route('admin.products.index');
@@ -84,9 +106,9 @@ class ProductController extends Controller
         //
         $product = $this->product->findOrFail($id);
 
-        $stores = \App\Models\Store::all(['id', 'name']);
+        $categories = \App\Models\Category::all(['id', 'name']);
 
-        return view('admin.products.edit', compact('stores', 'product'));
+        return view('admin.products.edit', compact('categories', 'product'));
     }
 
     /**
@@ -106,6 +128,18 @@ class ProductController extends Controller
 
         $product->update($data);
 
+        $categories = $request->get('categories', null);
+
+        if (!is_null($categories)) {
+            $product->categories()->sync($categories);
+        }
+        //$product->categories()->sync($data['categories']);
+
+        if ($request->hasFile('photos')) {
+            $images = $this->imageUpload($request,  'photos', 'products', 'image');
+
+            $product->photos()->createMany($images);
+        }
         flash('Produto alterado com sucesso!')->success();
         return redirect()->route('admin.products.index');
     }

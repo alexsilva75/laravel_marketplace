@@ -1,9 +1,8 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-
     <h1>Criar Loja</h1>
-    <form method="POST" action="{{ route('admin.stores.store') }}">
+    <form method="POST" action="{{ route('admin.stores.store') }}" enctype="multipart/form-data">
         @csrf
         {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
         <div class="form-group">
@@ -42,10 +41,10 @@
             @enderror
         </div>
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label class="form-label" for="slug">Slug</label>
             <input class="form-control" type="text" name="slug" id="slug" value="{{ old('slug') }}">
-        </div>
+        </div> --}}
 
         {{-- <div class="form-group">
             <label class="form-label" for="user">Usuário</label>
@@ -55,9 +54,15 @@
                 @endforeach
             </select>
         </div> --}}
+        <div class="form-group">
+            <label for="logo" class="form-label">Logomarca da Loja</label>
+            <input type="file" class="form-control @error('logo') is-invalid @enderror" name=" logo" id="logo">
+            @error('logo')
+                <p class="invalid-feedback">{{ $message }}</p>
+            @enderror
+        </div>
         <div class="py-2">
             <button class="btn btn-primary btn-lg">Criar Loja</button>
         </div>
     </form>
-
 @endsection

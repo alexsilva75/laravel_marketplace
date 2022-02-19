@@ -29,6 +29,7 @@ class StoreRequest extends FormRequest
             'description' => 'required|min:10',
             'phone' => 'required',
             'mobile_phone' => 'required',
+            'logo' => 'image',
         ];
     }
 
@@ -42,6 +43,7 @@ class StoreRequest extends FormRequest
             'description.min' => 'O campo \'Descrição\' precisa ter, pelo menos, :min caracteres.',
             'phone.required' => 'O campo \'Telefone\' não pode ficar em branco.',
             'mobile_phone.required' => 'O campo \'Celular/Whatsapp\' não pode ficar em branco.',
+            'image' => 'Apenas imagens são aceitas neste campo.',
         ];
     }
 }
