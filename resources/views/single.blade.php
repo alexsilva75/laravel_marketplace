@@ -33,8 +33,8 @@
                 <hr>
                 <form method="POST" action="{{ route('cart.add') }}">
                     @csrf
-                    <input type="hidden" name="product[name]" value="{{ $product->name }}">
-                    <input type="hidden" name="product[price]" value="{{ $product->price }}">
+                    {{-- <input type="hidden" name="product[name]" value="{{ $product->name }}">
+                    <input type="hidden" name="product[price]" value="{{ $product->price }}"> --}}
                     <input type="hidden" name="product[slug]" value="{{ $product->slug }}">
                     <div class="form-group">
                         <div class="row">

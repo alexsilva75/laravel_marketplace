@@ -17,8 +17,11 @@ class HomeController extends Controller
 
     public function index()
     {
-        $products = $this->product->limit(10)->orderBy('id', 'DESC')->get();
-        return view('welcome', compact('products'));
+        $products = $this->product->limit(6)->orderBy('id', 'DESC')->get();
+        // $products = $this->product->limit(6)->orderBy('id', 'DESC')->paginate(6);
+        //$categories = \App\Models\Category::all(['name', 'slug']);
+        $stores = \App\Models\Store::limit(3)->get();
+        return view('welcome', compact('products', 'stores'));
     }
 
     public function single($slug)

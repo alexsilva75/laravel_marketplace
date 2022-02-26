@@ -1,9 +1,15 @@
 @extends('layouts.front')
 
 @section('content')
+    <div class="row">
+        <div class="col-12">
+            <h2>{{ $category->name }}</h2>
+            <hr>
+        </div>
+    </div>
     <div class="row mb-4 d-flex">
 
-        @foreach ($products as $key => $product)
+        @forelse ($category->products as $key => $product)
             <div class="col-md-4 d-flex flex-column">
 
                 <div class="card flex-1 " style="width: 98%;  min-height:   490px">
@@ -13,10 +19,9 @@
                         @if ($product->photos->count())
                             <img src="{{ asset('storage/' . $product->photos->first()->image) }}"
                                 style="max-height: 200px;" alt="">
-                            {{-- <img src="{{ asset('storage/' . $product->photos->first()->image) }}" class="card-img-top"
-    alt=""> --}}
+
                         @else
-                            {{-- <img src="{{ asset('assets/img/no-photo.jpg') }}" class="card-img-top" alt=""> --}}
+
                             <img src="{{ asset('assets/img/no-photo.jpg') }}" style="min-height: 200px; max-width: 100%"
                                 alt="">
                         @endif
@@ -37,25 +42,13 @@
     </div>
     <div class="row mb-4">
         @endif
-        @endforeach
-    </div>
-    {{-- {{ $products->links() }} --}}
-    <div class="row">
-        <div class="col-12">
-            <h2>Lojas em Destaque</h2>
-            <hr>
-        </div>
-    </div>
-    <div class="row">
-        @foreach ($stores as $store)
-            <div class="col-4 d-flex flex-column justify-content-between">
-                <img src=" @if ($store->logo) {{ asset('storage/' . $store->logo) }} @else {{ asset('assets/img/600x300.webp') }} @endif"
-                    alt="" class="img-fluid">
-                <h3>{{ $store->name }}</h3>
-                <p>{{ $store->description }}</p>
-                <a href="{{ route('store.single', ['slug' => $store->slug]) }}" class="btn btn-sm btn-success">Ver
-                    Loja</a>
+    @empty
+        <div class="row">
+            <div class="col-12">
+                <p class="alert alert-warning">Nenhum produto encontrado para esta categoria.</p>
+
             </div>
-        @endforeach
+        </div>
+        @endforelse
     </div>
 @endsection

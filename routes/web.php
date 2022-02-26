@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/product/{slug}', [\App\Http\Controllers\HomeController::class, 'single'])->name('product.single');
+Route::get('/category/{slug}', [\App\Http\Controllers\CategoryController::class, 'index'])->name('category.single');
+Route::get('/store/{slug}', [\App\Http\Controllers\StoreController::class, 'index'])->name('store.single');
+
 
 Route::prefix('cart')->name('cart.')->group(function () {
     Route::get('/', [\App\Http\Controllers\CartController::class, 'index'])->name('index');
@@ -26,6 +29,8 @@ Route::prefix('cart')->name('cart.')->group(function () {
 Route::prefix('checkout')->name('checkout.')->group(function () {
     //
     Route::get('/', [\App\Http\Controllers\CheckoutController::class, 'index'])->name('index');
+    Route::post('/process', [\App\Http\Controllers\CheckoutController::class, 'process'])->name('process');
+    Route::get('/thanks', [\App\Http\Controllers\CheckoutController::class, 'thanks'])->name('thanks');
 });
 // Route::get('/', function () {
 //     return view('welcome');

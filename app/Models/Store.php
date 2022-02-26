@@ -31,4 +31,9 @@ class Store extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(UserOrder::class, 'order_store', 'store_id');
+    }
 }

@@ -46,8 +46,9 @@
                 </table>
                 <hr>
                 <div class="d-flex justify-content-between">
-                    <a href="#" class="btn btn-lg btn-success ">Concluir compra</a>
                     <a href="{{ route('cart.cancel') }}" class="btn btn-lg btn-danger ">Cancelar compra</a>
+                    <a href="{{ route('checkout.index') }}" class="btn btn-lg btn-success ">Concluir compra</a>
+
                 </div>
 
             @else

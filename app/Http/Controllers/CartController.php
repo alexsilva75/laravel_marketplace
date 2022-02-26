@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -16,7 +17,21 @@ class CartController extends Controller
 
     public function add(Request $request)
     {
-        $product = $request->get('product');
+        $productData = $request->get('product');
+
+        $storedProduct = Product::whereSlug($productData['slug'])->first(['name', 'price', 'store_id']);
+
+        if (
+            !$storedProduct ||
+            array_key_exists('price', $productData) ||
+            $request->has('price') ||
+            $productData['amount'] == 0
+        ) {
+            return redirect()->route('home');
+        }
+
+        $product = array_merge($storedProduct->toArray(), $productData);
+
 
         if (session()->has('cart')) {
             $products = session()->get('cart');
@@ -67,7 +82,7 @@ class CartController extends Controller
     private function productIncrement($slug, $amount, $receivedProducts)
     {
         $newProducts = array_map(function ($product) use ($slug, $amount) {
-            if ($slug  == $product->slug) {
+            if ($slug  == $product['slug']) {
                 $product['amount'] += $amount;
             }
             return $product;
