@@ -3,7 +3,8 @@
 namespace App\Http\Views;
 
 use App\Models\Category;
-use Illuminate\Support\Facades\View;
+//use Illuminate\Support\Facades\View;
+use Illuminate\View\View;
 
 class CategoryViewComposer
 {
@@ -14,10 +15,10 @@ class CategoryViewComposer
     {
         $this->category = $category;
     }
-    public function compose($view)
+    public function compose(View $view)
 
     {
         $categories = $this->category->all();
-        return $view->with('categories', $categories);
+        $view->with('categories', $categories);
     }
 }

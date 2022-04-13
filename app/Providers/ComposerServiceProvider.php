@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class ComposerServiceProvider extends ServiceProvider
@@ -25,6 +26,8 @@ class ComposerServiceProvider extends ServiceProvider
     {
         //
         // view()->composer('*', \App\Http\Views\CategoryViewComposer::class);
-        view()->composer('layout.front', \App\Http\Views\CategoryViewComposer::class);
+        //view()->composer('layout.front', \App\Http\Views\CategoryViewComposer::class);
+
+        View::composer('layouts.front', \App\Http\Views\CategoryViewComposer::class);
     }
 }
