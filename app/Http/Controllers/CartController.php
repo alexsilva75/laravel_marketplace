@@ -25,7 +25,7 @@ class CartController extends Controller
             !$storedProduct ||
             array_key_exists('price', $productData) ||
             $request->has('price') ||
-            $productData['amount'] == 0
+            $productData['amount'] <= 0
         ) {
             return redirect()->route('home');
         }

@@ -1,9 +1,9 @@
-@extends('admin.layouts.admin')
+@extends('layouts.front')
 
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2>Pedidos Recebidos</h2>
+        <h2>Meus Pedidos</h2>
         <hr>
     </div>
 </div>
@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-12">
         <div class="accordion" id="accordionExample">
-            @forelse ($orders as $key => $order)
+            @forelse ($userOrders as $key => $order)
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne{{$key}}">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{$key}}" aria-expanded="true" aria-controls="collapseOne">
@@ -28,7 +28,7 @@
                             @endphp
                             <ul>
 
-                                @foreach (filterItemsByStoreId($items, auth()->user()->store->id ) as $item)
+                                @foreach ($items as $item)
                                     <li>
                                         {{$item['name']}} | R$ {{number_format($item['price'] * $item['amount'], 2, ',','.')}}
                                         <br>
@@ -52,7 +52,7 @@
 <div class="row">
     <div class="col-12">
         <hr>
-        {{$orders->links()}}
+        {{$userOrders->links()}}
     </div>
 </div>
 @endsection

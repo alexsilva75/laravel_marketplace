@@ -30,11 +30,11 @@ class ProductController extends Controller
     {
         //
         $userStore = auth()->user()->store;
-        if ($userStore) {
-
-            $products = $userStore->products()->paginate(10);
+        if (!auth()->user()->store()->exists()) {
+            flash('É preciso criar uma loja para cadastrar produtos.')->warning();
+            return redirect()->route('admin.stores.index');
         } else {
-            $products = [];
+            $products = $userStore->products()->paginate(10);
         }
         return view('admin.products.index', compact('products'));
     }

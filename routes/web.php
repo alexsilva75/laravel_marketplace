@@ -42,7 +42,9 @@ Route::get('/dashboard', function () {
 
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth','access.control.store.admin'])->group(function () {
+    Route::get('my-orders', [\App\Http\Controllers\UserOrderController::class, 'index'])->name('user.orders');
+
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('notifications', [\App\Http\Controllers\Admin\NotificationController::class, 'notifications'])->name('notifications.index');
         Route::get('notifications/read-all', [\App\Http\Controllers\Admin\NotificationController::class, 'readAll'])->name('notifications.readAll');

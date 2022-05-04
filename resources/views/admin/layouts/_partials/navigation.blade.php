@@ -12,7 +12,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link @if (request()->is('admin/stores*')) active @endif" aria-current="page"
-                            href="{{ route('admin.orders.index') }}">Meus pedidos recebidos</a>
+                            href="{{ route('admin.orders.my') }}">Meus pedidos recebidos</a>
                     </li>
 
                     <li class="nav-item">

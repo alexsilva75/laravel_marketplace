@@ -78,6 +78,12 @@
                 </div>
             @endauth
             <ul class="navbar-nav ms-auto">
+                @auth
+                    <li class="nav-item  @if (request()->is('my-orders')) active @endif">
+                        <a href="{{ route('user.orders')}}" class="nav-link">Meus Pedidos</a>
+                    </li>
+                @endauth
+
                 <li class="nav-item">
 
                     <a href="{{ route('cart.index') }}" class="nav-link">
@@ -92,6 +98,15 @@
                         </span>
                     </a>
                 </li>
+
+                @auth
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-default text-light">Sair</button>
+                        </form>
+                    </li>
+                @endauth
             </ul>
         </div>
     </nav>
