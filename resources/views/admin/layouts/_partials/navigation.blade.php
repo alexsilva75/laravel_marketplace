@@ -10,7 +10,10 @@
             @auth
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
+                    <li class="nav-item">
+                        <a class="nav-link @if (request()->is('admin/stores*')) active @endif" aria-current="page"
+                            href="{{ route('admin.orders.index') }}">Meus pedidos recebidos</a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link @if (request()->is('admin/stores*')) active @endif" aria-current="page"
@@ -49,6 +52,12 @@
                 <div class="my-2 my-lg-0">
 
                     <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a href="{{route('admin.notifications.index')}}" class="nav-link">
+                                <span class="badge bg-danger">{{auth()->user()->notifications->count()}}</span>
+                                <i class="fa fa-bell"></i>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
 

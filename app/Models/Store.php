@@ -17,7 +17,7 @@ class Store extends Model
 
     public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function products()
@@ -34,6 +34,16 @@ class Store extends Model
 
     public function orders()
     {
-        return $this->belongsToMany(UserOrder::class, 'order_store', 'store_id');
+        return $this->belongsToMany(UserOrder::class, 'order_store', 'store_id', 'order_id');
+    }
+
+    public function notifyStoreOwners(array $storesIds = []){
+        //$storesIds = [3,27,40];
+
+        $stores = $this->whereIn('id', $storesIds)->get();
+
+        return $stores->map(function($store){
+            return $store->user;
+        })->each->notify(new \App\Notifications\StoreReceiveNewOrder());
     }
 }

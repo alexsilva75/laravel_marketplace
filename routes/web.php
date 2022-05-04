@@ -44,13 +44,42 @@ Route::get('/dashboard', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
-
+        Route::get('notifications', [\App\Http\Controllers\Admin\NotificationController::class, 'notifications'])->name('notifications.index');
+        Route::get('notifications/read-all', [\App\Http\Controllers\Admin\NotificationController::class, 'readAll'])->name('notifications.readAll');
+        Route::get('notifications/read/{notification}', [\App\Http\Controllers\Admin\NotificationController::class, 'read'])->name('notifications.read');
         Route::resource('stores', \App\Http\Controllers\Admin\StoreController::class); //->middleware('user.has.store')->only(['create', 'store']); //->middleware(['auth']);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
 
         Route::post('photos/remove', [App\Http\Controllers\Admin\ProductPhotoController::class, 'removePhoto'])->name('photo.remove');
+        Route::get('/orders/my', [App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.my');
     });
+});
+
+Route::get('notifications', function(){
+$user = App\Models\User::find(1);
+
+$user->notify(new App\Notifications\StoreReceiveNewOrder());
+
+// $notification = $user->notifications->first();
+// $notification->markAsRead();
+// return $user->unreadNotifications->count();
+$storesIds = [3,27,40];
+
+$stores = \App\Models\Store::whereIn('id', $storesIds)->get();
+
+// return $stores->each(function($store){
+//     return $store->user;
+// });
+
+// return $stores->map(function($store){
+//     return get_class($store->user);
+// });
+
+return $stores->map(function($store){
+    return $store->user;
+})->each->notify(new \App\Notifications\StoreReceiveNewOrder());
+//return $user->unreadNotifications;
 });
 
 require __DIR__ . '/auth.php';

@@ -17,6 +17,7 @@
         @include('flash::message')
         @yield('content')
     </div>
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
 </body>
 
 </html>

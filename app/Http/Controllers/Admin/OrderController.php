@@ -11,6 +11,11 @@ class OrderController extends Controller
     //
     private $order;
 
+    public function index(){
+        $orders = auth()->user()->store->orders()->paginate(10);
+        return view('admin.orders.index', compact('orders'));
+    }
+
     public function __construct(UserOrder $order)
     {
         $this->order = $order;

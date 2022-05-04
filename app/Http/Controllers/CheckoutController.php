@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\UserOrder;
 use App\Payment\PagSeguro\CreditCard;
+use App\Models\Store;
 
 class CheckoutController extends Controller
 {
@@ -37,12 +38,14 @@ class CheckoutController extends Controller
     }
     public function process(Request $request)
     {
-        $dataPost = $request->all();
-        $cartItems = session()->get('cart');
-        $user = auth()->user();
-        $reference = 'XPTO';
-
         try {
+            $dataPost = $request->all();
+            $cartItems = session()->get('cart');
+            $stores = array_unique(array_column($cartItems, 'store_id'));
+            $user = auth()->user();
+            $reference = 'XPTO';
+
+
 
             $creditCardPayment = new CreditCard(
                 $cartItems,
@@ -64,8 +67,16 @@ class CheckoutController extends Controller
 
             $stores = array_unique(array_column($cartItems, 'store_id'));
 
-            $userOrder = $user->orders()->create($userOrder);
-            $userOrder->stores()->sync($stores);
+            $createdUserOrder = $user->orders()->create($userOrder);
+
+
+
+
+
+            $createdUserOrder->stores()->sync($stores);
+
+            //Notificar loja sobre o novo pedido
+            $store = (new Store())->notifyStoreOwners($stores);
 
 
             session()->forget('cart');
